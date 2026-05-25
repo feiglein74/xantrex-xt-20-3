@@ -1,0 +1,20 @@
+# Logic analyzer captures — multi-GB, kept locally, not in version control
+*.csv
+
+# WaveForms working file
+*.dwf3work
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Claude Code workspace
+.claude/
+
+# Proprietary artifacts — backed up to private repo:
+# https://github.com/feiglein74/xantrex-xt-20-3-private
+master_v114.bin
+master_disasm.lst
+7210.pdf
+MC68HC11F1.pdf
+sn75161b.pdf
