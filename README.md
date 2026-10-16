@@ -176,7 +176,9 @@ Power off the active XT, move the 82357B to the other XT, power it on, wait
 
 - `xt_listener_hunt.py` — wake-up sequence after every XT power-on
 - `xt_diag.py` — read all status/setpoint registers
-- `xt_probe_extended.py` — demonstrate `pad=1, sad=N` addressing
+- `diagnostics/` — probe/scan scripts from the troubleshooting sessions;
+  `xt_probe_extended.py` demonstrates `pad=1, sad=N` addressing
+- `setup/setup_xt1_conf.sh` — append `xt1` block to `/etc/gpib.conf`
 - `master_v114.bin` — dump of the master EPROM (V1.14) for reference
 - `default14.csv`, `default21.csv`, `default22.csv` — logic-analyzer captures
   proving DIPs influence the 7210 secondary-address writes

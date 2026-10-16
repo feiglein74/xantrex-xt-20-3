@@ -2,8 +2,8 @@
 """Halten REN auf einem festen State, bis Strg-C.
 
 Aufruf:
-  python3 ren_hold.py on
-  python3 ren_hold.py off
+  python3 diagnostics/ren_hold.py on
+  python3 diagnostics/ren_hold.py off
 
 REN bleibt im jeweiligen State, solange das Skript laeuft. Strg-C zum beenden;
 beim Ende wird REN released damit der Bus sauber bleibt.
@@ -13,7 +13,7 @@ import sys
 import gpib
 
 if len(sys.argv) != 2 or sys.argv[1] not in ("on", "off"):
-    print("Usage: python3 ren_hold.py [on|off]")
+    print("Usage: python3 diagnostics/ren_hold.py [on|off]")
     sys.exit(1)
 
 bd = gpib.find("gpib0")

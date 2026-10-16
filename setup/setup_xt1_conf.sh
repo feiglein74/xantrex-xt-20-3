@@ -3,7 +3,7 @@
 # linux-gpib Treiber. Idempotent: macht nichts, wenn xt1 schon drin ist.
 #
 # Aufruf:
-#   bash setup_xt1_conf.sh
+#   bash setup/setup_xt1_conf.sh
 # (sudo wird intern aufgerufen, du wirst nach dem Passwort gefragt)
 
 set -euo pipefail

@@ -161,14 +161,14 @@ The next escalation if this matters enough to keep going: dump U18 + U95 EPROMs 
 
 ## Reusable assets from the session
 
-- `/home/feig/xantrex-xt-20-3/xt_probe.py` — single SDC + Serial Poll + REN test for xt1 (PAD 5).
-- `/home/feig/xantrex-xt-20-3/xt_pad_scan.py` — sweeps PAD 1..30 with SDC.
-- `/home/feig/xantrex-xt-20-3/xt_bus_watch.py` — passive bus-line sampler.
-- `/home/feig/xantrex-xt-20-3/xt_probe_loop.py` — periodic IFC+SDC bursts (for scope observation).
-- `/home/feig/xantrex-xt-20-3/xt_probe_slow_t1.py` — same probe with T1=2 µs bus timing (no measurable effect on this card).
-- `/home/feig/xantrex-xt-20-3/xt_probe_manual_seq.py` — manual UNL+UNT+MTA0+LLO prelude before write (no effect here either).
-- `/home/feig/xantrex-xt-20-3/ren_hold.py` — keep REN asserted/released until Ctrl-C, useful for scope work.
-- `/home/feig/xantrex-xt-20-3/setup_xt1_conf.sh` — append `xt1` device block to `/etc/gpib.conf` and reload.
+- `/home/feig/xantrex-xt-20-3/diagnostics/xt_probe.py` — single SDC + Serial Poll + REN test for xt1 (PAD 5).
+- `/home/feig/xantrex-xt-20-3/diagnostics/xt_pad_scan.py` — sweeps PAD 1..30 with SDC.
+- `/home/feig/xantrex-xt-20-3/diagnostics/xt_bus_watch.py` — passive bus-line sampler.
+- `/home/feig/xantrex-xt-20-3/diagnostics/xt_probe_loop.py` — periodic IFC+SDC bursts (for scope observation).
+- `/home/feig/xantrex-xt-20-3/diagnostics/xt_probe_slow_t1.py` — same probe with T1=2 µs bus timing (no measurable effect on this card).
+- `/home/feig/xantrex-xt-20-3/diagnostics/xt_probe_manual_seq.py` — manual UNL+UNT+MTA0+LLO prelude before write (no effect here either).
+- `/home/feig/xantrex-xt-20-3/diagnostics/ren_hold.py` — keep REN asserted/released until Ctrl-C, useful for scope work.
+- `/home/feig/xantrex-xt-20-3/setup/setup_xt1_conf.sh` — append `xt1` device block to `/etc/gpib.conf` and reload.
 - `/home/feig/xantrex-xt-20-3/sn75161b.pdf` — local copy of TI bus-transceiver datasheet.
 - `/home/feig/xantrex-xt-20-3/7210.pdf` — local copy of NAT7210 datasheet.
 - `/home/feig/xantrex-xt-20-3/master_v114.bin` — 64 KB EPROM dump of the master µP (V1.14), MD5 `21903b193c458d74f11a97f69038d38f`. Read with TL866II+ as M27C512@DIP28.
@@ -508,7 +508,7 @@ XT alone is not enough — both must be reset together.
 
 ### Reusable assets
 
-- `/home/feig/xantrex-xt-20-3/xt_probe_extended.py` — extended addressing
+- `/home/feig/xantrex-xt-20-3/diagnostics/xt_probe_extended.py` — extended addressing
   probe. Confirmed `pad=1, sad=0x60` returns status 0x10 via Serial Poll.
 - `/home/feig/xantrex-xt-20-3/xt_listener_hunt.py` — REN-toggle + SAD-sweep.
   Found full bidirectional comms on every SAD 3..30.
