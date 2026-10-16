@@ -1,0 +1,6 @@
+title: Xantrex XT 20-3 GPIB Control
+description: >-
+  Remote control of Xantrex / Sorensen XT 20-3 DC power supplies over GPIB
+  (IEEE-488) on Linux with the M9B GPIB option and a Keysight 82357B adapter.
+  Why the XT ignores its DIP address, and how to talk to it anyway.
+theme: jekyll-theme-minimal

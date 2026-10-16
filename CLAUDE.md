@@ -88,7 +88,7 @@ If you measure **no signal** on the J7 RJ45 pins with a multimeter, that is norm
 
 ## Earlier troubleshooting notes (XHR/XFR manual, kept for reference)
 
-The closest *external* official documentation is the **Xantrex "Internal GPIB Interface for XHR/XFR Series"** manual (TM-GPRF-01XN, Release 3.1) — same Xantrex GPIB-card family as the XT, very likely the same firmware/command set. Local copy cached under `/home/feig/.claude/projects/-home-feig-xantrex-xt-20-3/ca615389-6e24-4137-8d5c-e4378c544181/tool-results/`.
+The closest *external* official documentation is the **Xantrex "Internal GPIB Interface for XHR/XFR Series"** manual (TM-GPRF-01XN, Release 3.1) — same Xantrex GPIB-card family as the XT, very likely the same firmware/command set. Local copy cached outside the repo (not redistributable).
 
 **DIP block on the GPIB subplate (per XHR/XFR manual; XT layout matches):**
 
@@ -161,17 +161,17 @@ The next escalation if this matters enough to keep going: dump U18 + U95 EPROMs 
 
 ## Reusable assets from the session
 
-- `/home/feig/xantrex-xt-20-3/diagnostics/xt_probe.py` — single SDC + Serial Poll + REN test for xt1 (PAD 5).
-- `/home/feig/xantrex-xt-20-3/diagnostics/xt_pad_scan.py` — sweeps PAD 1..30 with SDC.
-- `/home/feig/xantrex-xt-20-3/diagnostics/xt_bus_watch.py` — passive bus-line sampler.
-- `/home/feig/xantrex-xt-20-3/diagnostics/xt_probe_loop.py` — periodic IFC+SDC bursts (for scope observation).
-- `/home/feig/xantrex-xt-20-3/diagnostics/xt_probe_slow_t1.py` — same probe with T1=2 µs bus timing (no measurable effect on this card).
-- `/home/feig/xantrex-xt-20-3/diagnostics/xt_probe_manual_seq.py` — manual UNL+UNT+MTA0+LLO prelude before write (no effect here either).
-- `/home/feig/xantrex-xt-20-3/diagnostics/ren_hold.py` — keep REN asserted/released until Ctrl-C, useful for scope work.
-- `/home/feig/xantrex-xt-20-3/setup/setup_xt1_conf.sh` — append `xt1` device block to `/etc/gpib.conf` and reload.
-- `/home/feig/xantrex-xt-20-3/sn75161b.pdf` — local copy of TI bus-transceiver datasheet.
-- `/home/feig/xantrex-xt-20-3/7210.pdf` — local copy of NAT7210 datasheet.
-- `/home/feig/xantrex-xt-20-3/master_v114.bin` — 64 KB EPROM dump of the master µP (V1.14), MD5 `21903b193c458d74f11a97f69038d38f`. Read with TL866II+ as M27C512@DIP28.
+- `diagnostics/xt_probe.py` — single SDC + Serial Poll + REN test for xt1 (PAD 5).
+- `diagnostics/xt_pad_scan.py` — sweeps PAD 1..30 with SDC.
+- `diagnostics/xt_bus_watch.py` — passive bus-line sampler.
+- `diagnostics/xt_probe_loop.py` — periodic IFC+SDC bursts (for scope observation).
+- `diagnostics/xt_probe_slow_t1.py` — same probe with T1=2 µs bus timing (no measurable effect on this card).
+- `diagnostics/xt_probe_manual_seq.py` — manual UNL+UNT+MTA0+LLO prelude before write (no effect here either).
+- `diagnostics/ren_hold.py` — keep REN asserted/released until Ctrl-C, useful for scope work.
+- `setup/setup_xt1_conf.sh` — append `xt1` device block to `/etc/gpib.conf` and reload.
+- `sn75161b.pdf` — local copy of TI bus-transceiver datasheet.
+- `7210.pdf` — local copy of NAT7210 datasheet.
+- `master_v114.bin` — 64 KB EPROM dump of the master µP (V1.14), MD5 `21903b193c458d74f11a97f69038d38f`. Read with TL866II+ as M27C512@DIP28.
 
 Logic-analyzer captures (default1.csv … default16.csv) sit in the project dir and document the diagnostic trail. `default14.csv` (5.4 M samples, 217 ms, 25 MHz, 16 channels) is the definitive **complete init-sequence capture** showing 47 distinct 7210 bus events.
 
@@ -508,15 +508,15 @@ XT alone is not enough — both must be reset together.
 
 ### Reusable assets
 
-- `/home/feig/xantrex-xt-20-3/diagnostics/xt_probe_extended.py` — extended addressing
+- `diagnostics/xt_probe_extended.py` — extended addressing
   probe. Confirmed `pad=1, sad=0x60` returns status 0x10 via Serial Poll.
-- `/home/feig/xantrex-xt-20-3/xt_listener_hunt.py` — REN-toggle + SAD-sweep.
+- `xt_listener_hunt.py` — REN-toggle + SAD-sweep.
   Found full bidirectional comms on every SAD 3..30.
-- `/home/feig/xantrex-xt-20-3/xt_diag.py` — clean read-back of all XT
+- `xt_diag.py` — clean read-back of all XT
   status registers (VOUT, IOUT, OUT, ASTS, VSET, ISET, VMAX, IMAX, OVSET,
   FAULT). Returns valid XT 20-3 values (VMAX=20.000, IMAX=3.000).
-- `/home/feig/xantrex-xt-20-3/default21.csv` (all DIPs OFF) and
-  `/home/feig/xantrex-xt-20-3/default22.csv` (DIP 1 ON) — capture pair used
+- `default21.csv` (all DIPs OFF) and
+  `default22.csv` (DIP 1 ON) — capture pair used
   to confirm DIPs are read by the firmware (secondary address depends on
   DIP value with offsets +3, +5, +12, +24).
 
@@ -591,7 +591,7 @@ python3 xt_diag.py            # or any single-target use
 
 ## Working notes for future Claude sessions
 
-- The sibling project at `/home/feig/ngpv-40-5/build/` is the reference for adapter handling. Read `gpib.conf`, `adapter_check.py`, `adapter_unhang.py`, `ngpv_diag.py` before writing anything new — they encode hard-won bus-recovery patterns.
+- The sibling project at `~/ngpv-40-5/build/` is the reference for adapter handling. Read `gpib.conf`, `adapter_check.py`, `adapter_unhang.py`, `ngpv_diag.py` before writing anything new — they encode hard-won bus-recovery patterns.
 - User communicates in German interactively; code, comments in source, and this file stay German/English as established by the sibling project (German comments are fine).
 - Do not invent build commands, test commands, or directory layout in this file until they actually exist in the repo.
 

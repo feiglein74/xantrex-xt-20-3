@@ -1,8 +1,37 @@
 # Xantrex XT 20-3 GPIB Control
 
-Linux control software for two Xantrex XT 20-3 programmable DC bench power
-supplies via the M9B GPIB option board, addressed over a Keysight 82357B
-USB-GPIB adapter.
+![License](https://img.shields.io/github/license/feiglein74/xantrex-xt-20-3)
+![Python](https://img.shields.io/badge/Python-3-3776AB?logo=python&logoColor=white)
+![Platform](https://img.shields.io/badge/platform-Linux%20%28linux--gpib%29-FCC624?logo=linux&logoColor=black)
+![Interface](https://img.shields.io/badge/interface-GPIB%20%2F%20IEEE--488-555)
+
+Python scripts for remote control of **Xantrex (Sorensen / AMETEK) XT 20-3**
+programmable DC bench power supplies over **GPIB / IEEE-488** on Linux, using
+the internal **M9B GPIB option** (board `XM-6H9B`, manual TM-9BGP-6HSN) and a
+**Keysight / Agilent 82357B** USB-GPIB adapter with linux-gpib.
+
+**Why this exists:** with master firmware M9B V1.14 the XT does *not* answer
+on the GPIB address set with the rear-panel DIP switches — PAD scans find
+nothing and every write times out. The firmware actually listens on
+**primary address 1 with a secondary address**, and the listener only wakes
+up after a specific bus sequence. This repo documents that and provides
+working scripts. If your XT with GPIB option seems dead on the bus, start here.
+
+```text
+$ python3 xt_diag.py
+XT auf PAD=1, SAD=5
+
+  VOUT?    -> VOUT 4.998
+  OUT?     -> OUT 1
+  ASTS?    -> ASTS 641
+  VMAX?    -> VMAX 20.000
+  IMAX?    -> IMAX 3.000
+  OVSET?   -> OVSET 22.000
+```
+<sub>Excerpt, XT #1 with `VSET 5`, output on, no load.</sub>
+
+> Script comments and the detailed reverse-engineering log (`CLAUDE.md`) are
+> partly in German. Everything needed to use the supplies is in this README.
 
 ## Hardware
 
@@ -18,7 +47,7 @@ yet — adapter plugs directly onto the rear-panel Centronics connector).
 - linux-gpib (kernel modules `agilent_82357a` + `gpib_common`)
 - Python via `Gpib` (high-level) and `gpib` (low-level) bindings from
   the linux-gpib package
-- NOT pyvisa — deliberate convention from sibling project `ngpv-40-5/`
+- NOT pyvisa — deliberate choice, no VISA layer
 
 ## Addressing — the non-obvious part
 
@@ -155,7 +184,7 @@ listener state. Full recovery sequence:
 
 1. Unplug 82357B USB, wait ~2 s, plug back in
 2. `sudo gpib_config`
-3. Power-cycle the XT (front Netzschalter off → on)
+3. Power-cycle the XT (front power switch off → on)
 4. Wait ~3 s, then run `xt_listener_hunt.py`
 
 Adapter alone is insufficient; XT alone is insufficient — both must reset.
@@ -179,9 +208,11 @@ Power off the active XT, move the 82357B to the other XT, power it on, wait
 - `diagnostics/` — probe/scan scripts from the troubleshooting sessions;
   `xt_probe_extended.py` demonstrates `pad=1, sad=N` addressing
 - `setup/setup_xt1_conf.sh` — append `xt1` block to `/etc/gpib.conf`
-- `master_v114.bin` — dump of the master EPROM (V1.14) for reference
-- `default14.csv`, `default21.csv`, `default22.csv` — logic-analyzer captures
-  proving DIPs influence the 7210 secondary-address writes
+- `todo.md` — commands and features not yet verified
 - `CLAUDE.md` — exhaustive diagnostic log (2026-05-10 through 2026-05-25);
   read this if you need the full story including the firmware reverse-
   engineering trail
+
+Not included: the master EPROM dump (`master_v114.bin`, manufacturer
+firmware), vendor manuals and datasheets, and the multi-GB logic-analyzer
+captures referenced in `CLAUDE.md`.
